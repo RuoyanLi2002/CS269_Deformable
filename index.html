@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neural PIC — CS 269 Project</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body { font-family: 'Noto Sans', sans-serif; }
+
+    .publication-title,
+    .publication-authors { font-family: 'Google Sans', sans-serif; }
+
+    .publication-venue { color: #555; font-weight: bold; }
+
+    /* repo tree */
+    .repo-tree {
+      background: #f5f5f5;
+      border-radius: 6px;
+      padding: 1.1rem 1.4rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      text-align: left;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .repo-tree a { color: hsl(204, 75%, 42%); text-decoration: none; }
+    .repo-tree a:hover { text-decoration: underline; }
+
+    .tree-comment { color: #888; }
+
+    figcaption {
+      color: #555;
+      font-size: 0.88rem;
+      margin-top: 0.6rem;
+      text-align: center;
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- ── HERO ──────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <h1 class="title is-2 publication-title" style="line-height:1.25;">
+            A Neural Particle-in-Cell Architecture for<br>
+            High-Fidelity Deformable Physics Simulation
+          </h1>
+
+          <div class="is-size-5 publication-authors" style="margin-top: 0.8rem;">
+            <span class="author-block">Phillips Li,&ensp;</span>
+            <span class="author-block">Zhao Xu,&ensp;</span>
+            <span class="author-block">Shiyuan Zhang,&ensp;</span>
+            <span class="author-block">Tong Xie</span>
+          </div>
+
+          <div class="is-size-6" style="margin-top: 0.4rem; color: #555;">
+            Department of Computer Science, University of California, Los Angeles
+          </div>
+
+          <div class="is-size-6 publication-venue" style="margin-top: 0.25rem;">
+            CS 269: Deformable Models, Spring 2026
+          </div>
+
+          <!-- Links -->
+          <div style="margin-top: 1.4rem;">
+
+            <a href="Final_report.pdf" target="_blank"
+               class="button is-normal is-rounded is-dark" style="margin: 4px;">
+              <span class="icon"><i class="fas fa-file-pdf"></i></span>
+              <span>Report</span>
+            </a>
+
+            <a href="ours/" class="button is-normal is-rounded is-dark" style="margin: 4px;">
+              <span class="icon"><i class="fab fa-github"></i></span>
+              <span>Code</span>
+            </a>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+
+<!-- ── ABSTRACT ──────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-4 has-text-centered">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Learned simulators promise orders-of-magnitude speedups over classical numerical
+            solvers for deformable physics, but their long-horizon stability remains a central
+            obstacle. We propose <em>Neural PIC</em>, an architecture that transcribes the
+            classical Particle-in-Cell (PIC) scheme into a learned pipeline: a message-passing
+            graph neural network resolves local kinematics, Self-Attention Graph (SAG) pooling
+            forms a compact Eulerian proxy, a Transformer resolves global dynamics over the
+            proxy, and a second graph network scatters the result back to the full particle set.
+            The design hypothesis is that the particle&rarr;grid information bottleneck that
+            stabilizes classical PIC will transfer to the neural setting, simultaneously improving
+            long-horizon accuracy (H1) and reducing the cost of global attention (H2). We test
+            both hypotheses against Graph Network-based Simulators (GNS) on the Goop deformable
+            benchmark over full 395-step autoregressive rollouts, measuring position MSE,
+            kinetic-energy error, Sinkhorn distance, and per-pass efficiency.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+
+<!-- ── REPRESENTATIVE FIGURE ─────────────────────────────────────────────── -->
+<section class="section is-light">
+  <div class="container is-max-desktop">
+    <figure>
+      <img src="images/error_vs_step.png"
+           alt="Per-step position MSE, kinetic-energy error, and Sinkhorn distance across 395 rollout steps"
+           style="display:block; width:100%; border:1px solid #ddd; border-radius:4px;">
+      <figcaption>
+        <strong>Figure 1.</strong> Per-step error on the Goop test split. Mean across 30
+        trajectories with shaded &plusmn;1 standard error. Both models start from the same
+        noise floor; the proposed model accelerates upward earlier and converges to a
+        4&times;&ndash;5&times; higher plateau on all three metrics.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+
+<!-- ── QUALITATIVE DEMO ───────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4 has-text-centered">Qualitative Demo</h2>
+    <figure>
+      <img src="images/qualitative.gif"
+           alt="Qualitative rollout comparison between GNS and Neural PIC"
+           style="display:block; width:100%; border:1px solid #ddd; border-radius:4px;">
+      <figcaption>
+        <strong>Demo.</strong> Autoregressive rollout on a representative Goop trajectory.
+        Left: ground truth. Center: GNS baseline. Right: Neural PIC (ours).
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+
+<!-- ── CODE ──────────────────────────────────────────────────────────────── -->
+<section class="section is-light">
+  <div class="container is-max-desktop">
+    <h2 class="title is-4 has-text-centered">Code</h2>
+
+    <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+      <a href="ours/" class="button is-small is-rounded is-dark" style="margin: 4px;">
+        <span class="icon"><i class="fab fa-github"></i></span>
+        <span>Neural PIC (Ours)</span>
+      </a>
+      <a href="gns/" class="button is-small is-rounded is-dark" style="margin: 4px;">
+        <span class="icon"><i class="fas fa-code"></i></span>
+        <span>GNS Baseline</span>
+      </a>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="repo-tree"><a href=".">269_deformable/</a>
+├── <a href="Final_report.pdf">Final_report.pdf</a>
+├── <a href="README.md">README.md</a>
+├── <a href="download_dataset.sh">download_dataset.sh</a>   <span class="tree-comment"># fetch Goop split</span>
+├── <a href="vis.py">vis.py</a>                    <span class="tree-comment"># visualization utilities</span>
+│
+├── <a href="ours/">ours/</a>                     <span class="tree-comment"># Neural PIC (proposed)</span>
+│   ├── <a href="ours/model.py">model.py</a>              <span class="tree-comment"># full hierarchical GNN-U-Net</span>
+│   ├── <a href="ours/network.py">network.py</a>            <span class="tree-comment"># GNN building blocks</span>
+│   ├── <a href="ours/attention_network.py">attention_network.py</a>  <span class="tree-comment"># SAG-pool + Transformer</span>
+│   ├── <a href="ours/main.py">main.py</a>               <span class="tree-comment"># training entry point</span>
+│   ├── <a href="ours/utils.py">utils.py</a>              <span class="tree-comment"># data loading & metrics</span>
+│   ├── <a href="ours/run_goop.sh">run_goop.sh</a>           <span class="tree-comment"># train on Goop</span>
+│   └── <a href="ours/eval_goop.sh">eval_goop.sh</a>          <span class="tree-comment"># evaluate on Goop</span>
+│
+└── <a href="gns/">gns/</a>                      <span class="tree-comment"># GNS baseline</span>
+    ├── <a href="gns/model.py">model.py</a>              <span class="tree-comment"># K=10 MP-blocks, d=128</span>
+    ├── <a href="gns/main.py">main.py</a>
+    ├── <a href="gns/utils.py">utils.py</a>
+    ├── <a href="gns/run_goop.sh">run_goop.sh</a>
+    └── <a href="gns/eval_goop.sh">eval_goop.sh</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
+<footer class="footer" style="padding: 2rem 1.5rem;">
+  <div class="content has-text-centered is-size-7" style="color: #999;">
+    CS 269: Deformable Models &middot; Spring 2026 &middot;
+    University of California, Los Angeles<br>
+    Page template adapted from the
+    <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank"
+       style="color:#999;">Academic Project Page Template</a>.
+  </div>
+</footer>
+
+
+</body>
+</html>
